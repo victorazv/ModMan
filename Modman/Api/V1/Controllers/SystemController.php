@@ -1,34 +1,35 @@
 <?php
 
-namespace Modman\Api\V1\Controllers; 
+namespace Modman\Api\V1\Controllers;
 
 use Modman\Api\V1\Controllers\ApiController;
-use Modman\Api\V1\Models\Module;
-use Illuminate\Http\Request;
 
-class ModuleController extends ApiController {
+use Illuminate\Http\Request;
+use Modman\Api\V1\Models\System;
+
+class SystemController extends ApiController {
 
     public function index() {
-        return $this->respond(Module::all());
+        return $this->respond(System::all());
     }
 
-    public function show(Module $module){
-        return $this->respond($module);
+    public function show(System $system){
+        return $this->respond($system);
     }
 
     public function store(Request $request){
-        $module = Module::create($request->all());
-        return $this->respondCreated($module);
+        $system = System::create($request->all());
+        return $this->respondCreated($system);
     }
 
-    public function destroy(Module $module){
-        $module->delete();
+    public function destroy(System $system){
+        $system->delete();
         return $this->respondDeleted();
     }
 
-    public function update(Module $module, Request $request){
-        $module->update($request->all());
-        return $this->respondUpdated($module);
+    public function update(System $system, Request $request){
+        $system->update($request->all());
+        return $this->respondUpdated($system);
     }
 
 }

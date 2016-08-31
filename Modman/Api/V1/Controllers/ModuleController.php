@@ -3,6 +3,7 @@
 namespace Modman\Api\V1\Controllers; 
 
 use Modman\Api\V1\Controllers\ApiController;
+
 use Modman\Api\V1\Models\Module;
 use Illuminate\Http\Request;
 
