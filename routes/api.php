@@ -4,6 +4,9 @@ Route::resource('module', 'ModuleController', ["except" => "edit"]);
 
 Route::resource('system', 'SystemController', ["except" => "edit"]);
 
+Route::resource('client', 'ClientController', ["except" => "edit"]);
+
+Route::resource('client_system', 'Client_systemController', ["except" => "edit"]);
+
 //Como retirar o create? testei e nao saiu da lista
-//Verificar a dependência da FK no método down
-//nao vi fk no workbench
+//Posso apagar uma migration direto no arquivo ?
