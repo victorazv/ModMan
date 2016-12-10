@@ -5,9 +5,7 @@ namespace Modman\Api\V1\Controllers;
 use Modman\Api\V1\Controllers\ApiController;
 
 use Illuminate\Http\Request;
-use Modman\Api\V1\Models\Client;
 use Modman\Api\V1\Models\Client_system;
-use Modman\Api\V1\Models\System;
 
 class Client_systemController extends ApiController {
 

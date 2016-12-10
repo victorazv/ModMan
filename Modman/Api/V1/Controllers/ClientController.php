@@ -6,7 +6,6 @@ use Modman\Api\V1\Controllers\ApiController;
 
 use Illuminate\Http\Request;
 use Modman\Api\V1\Models\Client;
-use Modman\Api\V1\Models\System;
 
 class ClientController extends ApiController {
 
@@ -29,7 +28,8 @@ class ClientController extends ApiController {
     }
 
     public function update(Client $client, Request $request){
-        $client->update($request->all());
+        //client->update($request->all());
+        $client->save($request->all());
         return $this->respondUpdated($client);
     }
 
