@@ -9,7 +9,13 @@ Route::resource('client', 'ClientController');
 
 Route::resource('client_system', 'Client_systemController');
 
-Route::resource('client_system_module', 'Client_system_moduleController');
+//Route::resource('client_system_module', 'Client_system_moduleController');
+
+Route::resource('profile', 'ProfileController');
+
+Route::resource('system_module', 'System_moduleController');
+
+Route::resource('module_functionality', 'Module_functionalityController');
 
 });
 

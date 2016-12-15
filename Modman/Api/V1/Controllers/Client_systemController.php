@@ -4,13 +4,19 @@ namespace Modman\Api\V1\Controllers;
 
 use Modman\Api\V1\Controllers\ApiController;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Modman\Api\V1\Models\Client_system;
 
 class Client_systemController extends ApiController {
 
     public function index() {
-        return $this->respond(Client_system::all());
+        $client_system = DB::table('client_systems')
+            ->select('clients.name AS client', 'systems.name AS system', 'client_systems.id')
+            ->join('clients', 'client_systems.id_client', '=', 'clients.id')
+            ->join('systems', 'client_systems.id_system', '=', 'systems.id')
+            ->get();//Passar para o model
+        return response()->json($client_system, 200);
     }
 
     public function show(Client_system $client_system){

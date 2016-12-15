@@ -29,7 +29,9 @@ class ClientController extends ApiController {
 
     public function update(Client $client, Request $request){
         //client->update($request->all());
-        $client->save($request->all());
+        
+        $client->fill($request->all());
+        $client->save();
         return $this->respondUpdated($client);
     }
 

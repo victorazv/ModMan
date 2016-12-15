@@ -4,8 +4,7 @@ namespace Modman\Api\V1\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class System extends Model
+class Profile extends Model
 {
-    protected $fillable = ['name', 'description'];
-
+    protected $fillable = ['name'];
 }
