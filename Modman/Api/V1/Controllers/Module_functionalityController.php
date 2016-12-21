@@ -4,13 +4,19 @@ namespace Modman\Api\V1\Controllers;
 
 use Modman\Api\V1\Controllers\ApiController;
 
+use Illuminate\Support\Facades\DB;
 use Modman\Api\V1\Models\Module_functionality;
 use Illuminate\Http\Request;
 
 class Module_functionalityController extends ApiController {
 
     public function index() {
-        return $this->respond(Module_functionality::all());
+        $system_module = DB::table('module_functionalities')
+            ->select('module_functionalities.functionality', 'modules.name AS module', 'module_functionalities.id', 'module_functionalities.id_module')
+            ->join('modules', 'module_functionalities.id_module', '=', 'modules.id')
+            ->orderBy('modules.name', 'asc')
+            ->get();//Passar para o model
+        return response()->json($system_module, 200);
     }
 
     public function show(Module_functionality $module_functionality){

@@ -15,6 +15,7 @@ class Client_systemController extends ApiController {
             ->select('clients.name AS client', 'systems.name AS system', 'client_systems.id')
             ->join('clients', 'client_systems.id_client', '=', 'clients.id')
             ->join('systems', 'client_systems.id_system', '=', 'systems.id')
+            ->orderBy('clients.name', 'asc')
             ->get();//Passar para o model
         return response()->json($client_system, 200);
     }
