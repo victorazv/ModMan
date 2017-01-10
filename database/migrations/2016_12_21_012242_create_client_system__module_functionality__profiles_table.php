@@ -13,7 +13,7 @@ class CreateClientSystemModuleFunctionalityProfilesTable extends Migration
      */
     public function up()
     {
-        Schema::create('client_system__module_functionality__profiles', function (Blueprint $table) {
+        Schema::create('cli_sys_mod_func_profile', function (Blueprint $table) {
             $table->increments('id');
             
             $table->integer('id_client_system')->unsigned();
@@ -36,6 +36,6 @@ class CreateClientSystemModuleFunctionalityProfilesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('client_system__module_functionality__profiles');
+        Schema::dropIfExists('cli_sys_mod_func_profile');
     }
 }

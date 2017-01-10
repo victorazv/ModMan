@@ -17,6 +17,8 @@ Route::resource('system_module', 'System_moduleController');
 
 Route::resource('module_functionality', 'Module_functionalityController');
 
+Route::resource('cli_sys_mod_func_profile', 'Cli_sys_mod_func_profileController');
+
 });
 
 //Como retirar o create? testei e nao saiu da lista
