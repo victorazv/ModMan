@@ -9,9 +9,9 @@ use Illuminate\Http\Request;
 use Modman\Api\V1\Models\Cli_sys_mod_func_profile;
 
 class Cli_sys_mod_func_profileController extends ApiController {
-
+    
     public function index() {
-        //return $this->respond(Cli_sys_mod_func_profile::all());
+
         $clientSystem_ModuleFunctionality_Profile = DB::table('cli_sys_mod_func_profile')
             ->select('clients.name AS client', 'systems.name AS system', 'modules.name AS module', 'module_functionalities.functionality', 'profiles.name AS profile', 'cli_sys_mod_func_profile.id_client_system', 'cli_sys_mod_func_profile.id_module_functionality', 'cli_sys_mod_func_profile.id_profile', 'cli_sys_mod_func_profile.id')
             ->join('client_systems', 'cli_sys_mod_func_profile.id_client_system', '=', 'client_systems.id')
@@ -25,13 +25,14 @@ class Cli_sys_mod_func_profileController extends ApiController {
         return response()->json($clientSystem_ModuleFunctionality_Profile, 200);
     }
 
-    public function show(Cli_sys_mod_func_profile $clientSystem_ModuleFunctionality_Profile){
-        return $this->respond($clientSystem_ModuleFunctionality_Profile);
+    public function show(Cli_sys_mod_func_profile $cli_sys_mod_func_profile){
+        return $this->respond($cli_sys_mod_func_profile);
     }
 
     public function store(Request $request){
-        $clientSystem_ModuleFunctionality_Profile = Cli_sys_mod_func_profile::create($request->all());
-        return $this->respondCreated($clientSystem_ModuleFunctionality_Profile);
+
+        $clientSystem_moduleFunctionality_profile = Cli_sys_mod_func_profile::create($request->all());
+        return $this->respondCreated($clientSystem_moduleFunctionality_profile);
     }
 
     public function destroy(Cli_sys_mod_func_profile $clientSystem_ModuleFunctionality_Profile){
@@ -43,5 +44,4 @@ class Cli_sys_mod_func_profileController extends ApiController {
         $clientSystem_ModuleFunctionality_Profile->update($request->all());
         return $this->respondUpdated($clientSystem_ModuleFunctionality_Profile);
     }
-
 }
