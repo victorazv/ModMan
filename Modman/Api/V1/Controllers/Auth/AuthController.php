@@ -23,7 +23,7 @@ class AuthController extends ApiController{
                 return response()->json(['INVALID_CREDENTIALS'], 401);
             }
         } catch (JWTException $e) {
-            return response()->json(['INVALID_CREDENTIALS'], $e->getStatusCode());
+            return response()->json(['ERROR'], $e->getStatusCode());
         }
 
         $user = JWTAuth::toUser($token);

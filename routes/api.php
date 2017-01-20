@@ -24,14 +24,6 @@ Route::group(['middleware' => ['cors', 'jwt.auth']], function(){
 
     Route::resource('cli_sys_mod_func_profile', 'Cli_sys_mod_func_profileController');
 
-    Route::get('auth', function(){
-        $user = DB::table('users')
-            ->select('users.id')
-            ->where('email', $_GET['email'])
-            ->where('password', $_GET['password'])
-            ->get();
-        return response()->json($user, 200);
-    });
 
     Route::get('teste', function(){
         $client = Modman\Api\V1\Models\Client::find(1);
