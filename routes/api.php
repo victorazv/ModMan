@@ -1,28 +1,44 @@
 <?php
-Route::group(['middleware' => 'cors'], function(){
 
-Route::resource('module', 'ModuleController');
+//Rotas públicas
+Route::post('/authenticate', 'Auth\AuthController@authenticate');
 
-Route::resource('system', 'SystemController');
+// Rotas protegidas
+Route::group(['middleware' => ['cors', 'jwt.auth']], function(){
 
-Route::resource('client', 'ClientController');
+    Route::resource('user', 'UserController');
 
-Route::resource('client_system', 'Client_systemController');
+    Route::resource('module', 'ModuleController');
 
-Route::resource('profile', 'ProfileController');
+    Route::resource('system', 'SystemController');
 
-Route::resource('system_module', 'System_moduleController');
+    Route::resource('client', 'ClientController');
 
-Route::resource('module_functionality', 'Module_functionalityController');
+    Route::resource('client_system', 'Client_systemController');
 
-Route::resource('cli_sys_mod_func_profile', 'Cli_sys_mod_func_profileController');
+    Route::resource('profile', 'ProfileController');
 
-Route::get('teste', function(){
-    $client = Modman\Api\V1\Models\Client::find(1);
-    $sistema1 = $client->systems()->where('systems.id', 1)->first();
-    $module = $sistema1->modules()->where('modules.id', 1)->first();
-    return dd($module->features);
-});
+    Route::resource('system_module', 'System_moduleController');
+
+    Route::resource('module_functionality', 'Module_functionalityController');
+
+    Route::resource('cli_sys_mod_func_profile', 'Cli_sys_mod_func_profileController');
+
+    Route::get('auth', function(){
+        $user = DB::table('users')
+            ->select('users.id')
+            ->where('email', $_GET['email'])
+            ->where('password', $_GET['password'])
+            ->get();
+        return response()->json($user, 200);
+    });
+
+    Route::get('teste', function(){
+        $client = Modman\Api\V1\Models\Client::find(1);
+        $sistema1 = $client->systems()->where('systems.id', 1)->first();
+        $module = $sistema1->modules()->where('modules.id', 1)->first();
+        return dd($module->features);
+    });
 
 });
 

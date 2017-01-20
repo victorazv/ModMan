@@ -67,7 +67,7 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => App\User::class,
+            'model' => Modman\Api\V1\Models\User::class,
         ],
 
         // 'users' => [

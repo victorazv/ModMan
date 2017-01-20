@@ -7,7 +7,7 @@ use Modman\Api\V1\Models\Module;
 
 class System extends Model
 {
-    protected $fillable = ['name', 'description'];
+    protected $fillable = ['name', 'description', 'id_users'];
     
     public function modules(){
         return $this->belongsToMany(Module::class, 'system_modules', 'id_system', 'id_module');
