@@ -10,7 +10,8 @@ use Modman\Api\V1\Models\System;
 class SystemController extends ApiController {
 
     public function index() {
-        return $this->respond(System::all());
+        $user = \Tymon\JWTAuth\Facades\JWTAuth::parseToken()->authenticate();
+        return $this->respond(System::where('id_users', $user->id)->get());
     }
 
     public function show(System $system){
@@ -18,6 +19,9 @@ class SystemController extends ApiController {
     }
 
     public function store(Request $request){
+        $user = \Tymon\JWTAuth\Facades\JWTAuth::parseToken()->authenticate();
+        $request->request->add(['id_users' => $user->id]);
+
         $system = System::create($request->all());
         return $this->respondCreated($system);
     }

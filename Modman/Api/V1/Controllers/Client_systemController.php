@@ -11,10 +11,12 @@ use Modman\Api\V1\Models\Client_system;
 class Client_systemController extends ApiController {
 
     public function index() {
+        $user = \Tymon\JWTAuth\Facades\JWTAuth::parseToken()->authenticate();
         $client_system = DB::table('client_systems')
             ->select('clients.name AS client', 'systems.name AS system', 'client_systems.id')
             ->join('clients', 'client_systems.id_client', '=', 'clients.id')
             ->join('systems', 'client_systems.id_system', '=', 'systems.id')
+            ->where('clients.id_users', $user->id)
             ->orderBy('clients.name', 'asc')
             ->get();//Passar para o model
         return response()->json($client_system, 200);
@@ -25,7 +27,18 @@ class Client_systemController extends ApiController {
     }
 
     public function store(Request $request){
-        $client_system = Client_system::create($request->all());
+        $request->request->add(['paid' => 'S']);
+
+        $input = $request->all();
+
+        $client_system = Client_system::create($input)->id;
+
+        $key = encrypt($client_system);
+
+        $client_system = Client_system::find($client_system);
+        $client_system->key = $key;
+        $client_system->save();
+
         return $this->respondCreated($client_system);
     }
 

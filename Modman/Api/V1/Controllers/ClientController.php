@@ -10,7 +10,8 @@ use Modman\Api\V1\Models\Client;
 class ClientController extends ApiController {
 
     public function index() {
-        return $this->respond(Client::all());
+        $user = \Tymon\JWTAuth\Facades\JWTAuth::parseToken()->authenticate();
+        return $this->respond(Client::where('id_users', $user->id)->get());
     }
 
     public function show(Client $client){
@@ -18,6 +19,9 @@ class ClientController extends ApiController {
     }
 
     public function store(Request $request){
+        $user = \Tymon\JWTAuth\Facades\JWTAuth::parseToken()->authenticate();
+        $request->request->add(['id_users' => $user->id]);
+
         $client= Client::create($request->all());
         return $this->respondCreated($client);
     }

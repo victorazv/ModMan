@@ -11,7 +11,7 @@ use Modman\Api\V1\Models\Cli_sys_mod_func_profile;
 class Cli_sys_mod_func_profileController extends ApiController {
     
     public function index() {
-
+        $user = \Tymon\JWTAuth\Facades\JWTAuth::parseToken()->authenticate();
         $clientSystem_ModuleFunctionality_Profile = DB::table('cli_sys_mod_func_profile')
             ->select('clients.name AS client', 'systems.name AS system', 'modules.name AS module', 'module_functionalities.functionality', 'profiles.name AS profile', 'cli_sys_mod_func_profile.id_client_system', 'cli_sys_mod_func_profile.id_module_functionality', 'cli_sys_mod_func_profile.id_profile', 'cli_sys_mod_func_profile.id')
             ->join('client_systems', 'cli_sys_mod_func_profile.id_client_system', '=', 'client_systems.id')
@@ -20,6 +20,7 @@ class Cli_sys_mod_func_profileController extends ApiController {
             ->join('module_functionalities', 'cli_sys_mod_func_profile.id_module_functionality', '=', 'module_functionalities.id')
             ->join('modules', 'module_functionalities.id_module', '=', 'modules.id')
             ->join('profiles', 'cli_sys_mod_func_profile.id_profile', '=', 'profiles.id')
+            ->where('systems.id_users', $user->id)
             ->orderBy('modules.name', 'asc')
             ->get();//Passar para o model
         return response()->json($clientSystem_ModuleFunctionality_Profile, 200);

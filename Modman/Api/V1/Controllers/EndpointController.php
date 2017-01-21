@@ -7,13 +7,13 @@ use Modman\Api\V1\Controllers\ApiController;
 use Illuminate\Http\Request;
 use Modman\Api\V1\Models\Profile;
 
-class ProfileController extends ApiController {
+class EndpointController extends ApiController {
 
-    public function index() {
-        $user = \Tymon\JWTAuth\Facades\JWTAuth::parseToken()->authenticate();
-        return $this->respond(Profile::where('id_users', $user->id)->get());
+    public function endpoint() {
+        return "asas";
     }
 
+    /*
     public function show(Profile $profile){
         return $this->respond($profile);
     }
@@ -35,5 +35,6 @@ class ProfileController extends ApiController {
         $profile->update($request->all());
         return $this->respondUpdated($profile);
     }
+    */
 
 }

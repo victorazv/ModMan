@@ -11,10 +11,12 @@ use Illuminate\Http\Request;
 class Module_functionalityController extends ApiController {
 
     public function index() {
+        $user = \Tymon\JWTAuth\Facades\JWTAuth::parseToken()->authenticate();
         $system_module = DB::table('module_functionalities')
             ->select('module_functionalities.functionality', 'modules.name AS module', 'module_functionalities.id', 'module_functionalities.id_module')
             ->join('modules', 'module_functionalities.id_module', '=', 'modules.id')
             ->orderBy('modules.name', 'asc')
+            ->where('modules.id_users', $user->id)
             ->get();//Passar para o model
         return response()->json($system_module, 200);
     }
@@ -24,6 +26,9 @@ class Module_functionalityController extends ApiController {
     }
 
     public function store(Request $request){
+        $user = \Tymon\JWTAuth\Facades\JWTAuth::parseToken()->authenticate();
+        $request->request->add(['id_users' => $user->id]);
+
         $module_functionality = Module_functionality::create($request->all());
         return $this->respondCreated($module_functionality);
     }

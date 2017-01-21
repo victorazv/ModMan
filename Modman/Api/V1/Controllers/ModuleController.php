@@ -10,7 +10,8 @@ use Illuminate\Http\Request;
 class ModuleController extends ApiController {
 
     public function index() {
-        return $this->respond(Module::all());
+        $user = \Tymon\JWTAuth\Facades\JWTAuth::parseToken()->authenticate();
+        return $this->respond(Module::where('id_users', $user->id)->get());
     }
 
     public function show(Module $module){
@@ -18,6 +19,9 @@ class ModuleController extends ApiController {
     }
 
     public function store(Request $request){
+        $user = \Tymon\JWTAuth\Facades\JWTAuth::parseToken()->authenticate();
+        $request->request->add(['id_users' => $user->id]);
+
         $module = Module::create($request->all());
         return $this->respondCreated($module);
     }

@@ -10,7 +10,8 @@ use Modman\Api\V1\Models\User;
 class UserController extends ApiController {
 
     public function index() {
-        return $this->respond(User::all());
+        $user = \Tymon\JWTAuth\Facades\JWTAuth::parseToken()->authenticate();
+        return $this->respond(User::where('id', $user->id)->get());
     }
 
     public function show(User $user){
