@@ -13,7 +13,7 @@ class Module_functionalityController extends ApiController {
     public function index() {
         $user = \Tymon\JWTAuth\Facades\JWTAuth::parseToken()->authenticate();
         $system_module = DB::table('module_functionalities')
-            ->select('module_functionalities.functionality', 'modules.name AS module', 'module_functionalities.id', 'module_functionalities.id_module')
+            ->select('module_functionalities.functionality', 'modules.name AS module', 'module_functionalities.id', 'module_functionalities.id_module', 'module_functionalities.key')
             ->join('modules', 'module_functionalities.id_module', '=', 'modules.id')
             ->orderBy('modules.name', 'asc')
             ->where('modules.id_users', $user->id)
@@ -29,8 +29,21 @@ class Module_functionalityController extends ApiController {
         $user = \Tymon\JWTAuth\Facades\JWTAuth::parseToken()->authenticate();
         $request->request->add(['id_users' => $user->id]);
 
-        $module_functionality = Module_functionality::create($request->all());
+
+        $input = $request->all();
+        $id_module = $request->id_module;
+        $module_functionality = Module_functionality::create($input)->id;
+
+        $key = 'F' . $module_functionality . $id_module;
+
+        $module_functionality = Module_functionality::find($module_functionality);
+        $module_functionality->key = $key;
+        $module_functionality->save();
+
         return $this->respondCreated($module_functionality);
+
+        //$module_functionality = Module_functionality::create($request->all());
+        //return $this->respondCreated($module_functionality);
     }
 
     public function destroy(Module_functionality $module_functionality){

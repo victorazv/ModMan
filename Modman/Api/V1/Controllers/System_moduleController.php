@@ -13,7 +13,7 @@ class System_moduleController extends ApiController {
     public function index() {
         $user = \Tymon\JWTAuth\Facades\JWTAuth::parseToken()->authenticate();
         $system_module = DB::table('system_modules')
-            ->select('modules.name AS module', 'systems.name AS system', 'system_modules.id', 'system_modules.id_system', 'system_modules.id_module')
+            ->select('modules.name AS module', 'systems.name AS system', 'system_modules.id', 'system_modules.id_system', 'system_modules.id_module', 'system_modules.key')
             ->join('modules', 'system_modules.id_module', '=', 'modules.id')
             ->join('systems', 'system_modules.id_system', '=', 'systems.id')
             ->orderBy('systems.name', 'asc')
@@ -28,10 +28,20 @@ class System_moduleController extends ApiController {
 
     public function store(Request $request){
 
+        $input = $request->all();
+        $id_module = $request->id_module;
+        $system_module = System_module::create($input)->id;
 
+        $key = 'M' . $system_module . $id_module;
 
-        $system_module = System_module::create($request->all());
+        $system_module = System_module::find($system_module);
+        $system_module->key = $key;
+        $system_module->save();
+
         return $this->respondCreated($system_module);
+
+        //$system_module = System_module::create($request->all());
+        //return $this->respondCreated($system_module);
     }
 
     public function destroy(System_module $system_module){

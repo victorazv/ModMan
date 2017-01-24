@@ -13,7 +13,7 @@ class Client_systemController extends ApiController {
     public function index() {
         $user = \Tymon\JWTAuth\Facades\JWTAuth::parseToken()->authenticate();
         $client_system = DB::table('client_systems')
-            ->select('clients.name AS client', 'systems.name AS system', 'client_systems.id')
+            ->select('clients.name AS client', 'systems.name AS system', 'client_systems.id', 'client_systems.key')
             ->join('clients', 'client_systems.id_client', '=', 'clients.id')
             ->join('systems', 'client_systems.id_system', '=', 'systems.id')
             ->where('clients.id_users', $user->id)
@@ -30,10 +30,10 @@ class Client_systemController extends ApiController {
         $request->request->add(['paid' => 'S']);
 
         $input = $request->all();
-
+        $id_client = $request->id_client;
         $client_system = Client_system::create($input)->id;
 
-        $key = encrypt($client_system);
+        $key = 'S' . $client_system . $id_client;
 
         $client_system = Client_system::find($client_system);
         $client_system->key = $key;
