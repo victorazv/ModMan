@@ -90,8 +90,8 @@ Route::group(['middleware' => ['cors', 'jwt.auth']], function(){
         return dd($module->features);
     });
     */
-
 });
+Route::resource('module2', 'ModuleController');
 
 //Como retirar o create? testei e nao saiu da lista
 //Posso apagar uma migration direto no arquivo ?
