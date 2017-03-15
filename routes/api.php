@@ -5,11 +5,14 @@ Route::post('/authenticate', 'Auth\AuthController@authenticate');
 
 Route::resource('user', 'UserController');
 
-//Route::post('endpoint', 'EndpointController');
-
 Route::post('endpoint', function(){
+    //header('Access-Control-Allow-Origin: *');
+    header('Access-Control-Allow-Methods: GET, POST, PUT');
+    $post = file_get_contents('php://input');
 
-    if( substr($_POST['key'], 0, 1) == 'S' ) {
+    $post = json_decode($post);
+
+    if( substr($post->key, 0, 1) == 'S' ) {
         $permission = DB::table('systems')
             ->select('clients.name AS client', 'systems.name AS systems', 'modules.name AS module', 'module_functionalities.functionality', 'profiles.name AS profile')
             ->join('client_systems', 'systems.id', '=', 'client_systems.id_system')
@@ -22,10 +25,10 @@ Route::post('endpoint', function(){
             ->join('modules', 'system_modules.id_module', '=', 'modules.id')
             ->join('profiles', 'cli_sys_mod_func_profile.id_profile', '=', 'profiles.id')
             ->join('clients', 'client_systems.id_client', '=', 'clients.id')
-            ->where('client_systems.key', $_POST['key'])
+            ->where('client_systems.key', $post->key)
             ->get();
     }
-    elseif ( substr($_POST['key'], 0, 1) == 'M' )
+    elseif ( substr($post->key, 0, 1) == 'M' )
     {
         $permission = DB::table('systems')
             ->select('clients.name AS client', 'systems.name AS systems', 'modules.name AS module', 'module_functionalities.functionality', 'profiles.name AS profile')
@@ -39,10 +42,10 @@ Route::post('endpoint', function(){
             ->join('modules', 'system_modules.id_module', '=', 'modules.id')
             ->join('profiles', 'cli_sys_mod_func_profile.id_profile', '=', 'profiles.id')
             ->join('clients', 'client_systems.id_client', '=', 'clients.id')
-            ->where('system_modules.key', $_POST['key'])
+            ->where('system_modules.key', $post->key)
             ->get();
     }
-    elseif ( substr($_POST['key'], 0, 1) == 'F' )
+    elseif ( substr($post->key, 0, 1) == 'F' )
     {
         $permission = DB::table('systems')
             ->select('clients.name AS client', 'systems.name AS systems', 'modules.name AS module', 'module_functionalities.functionality', 'profiles.name AS profile')
@@ -56,7 +59,7 @@ Route::post('endpoint', function(){
             ->join('modules', 'system_modules.id_module', '=', 'modules.id')
             ->join('profiles', 'cli_sys_mod_func_profile.id_profile', '=', 'profiles.id')
             ->join('clients', 'client_systems.id_client', '=', 'clients.id')
-            ->where('module_functionalities.key', $_POST['key'])
+            ->where('module_functionalities.key', $post->key)
             ->get();
     }
 
@@ -91,8 +94,6 @@ Route::group(['middleware' => ['cors', 'jwt.auth']], function(){
     });
     */
 });
-Route::resource('module2', 'ModuleController');
 
 //Como retirar o create? testei e nao saiu da lista
-//Posso apagar uma migration direto no arquivo ?
 //Route::resource('module', 'ModuleController', ["except" => "edit"]);
