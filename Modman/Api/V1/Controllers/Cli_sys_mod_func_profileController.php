@@ -37,12 +37,11 @@ class Cli_sys_mod_func_profileController extends ApiController {
     }
 
     public function destroy(Cli_sys_mod_func_profile $clientSystem_ModuleFunctionality_Profile){
-        return false;
         try{
+            return $clientSystem_ModuleFunctionality_Profile;
             $clientSystem_ModuleFunctionality_Profile->delete();
         } catch(\Exception $e){
-            echo $e->getMessage();
-            exit;
+            return $e->getMessage();
         }
 
         return $this->respondDeleted();
