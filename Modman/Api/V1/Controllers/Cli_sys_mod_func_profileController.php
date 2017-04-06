@@ -46,8 +46,8 @@ class Cli_sys_mod_func_profileController extends ApiController {
         return $this->respondDeleted();
     }
 
-    public function update(Cli_sys_mod_func_profile $clientSystem_ModuleFunctionality_Profile, Request $request){
-        $clientSystem_ModuleFunctionality_Profile->update($request->all());
-        return $this->respondUpdated($clientSystem_ModuleFunctionality_Profile);
+    public function update(Cli_sys_mod_func_profile $cli_sys_mod_func_profile, Request $request){
+        $cli_sys_mod_func_profile->update($request->all());
+        return $this->respondUpdated($cli_sys_mod_func_profile);
     }
 }
